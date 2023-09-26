@@ -6,6 +6,13 @@ from flask_sqlalchemy import SQLAlchemy
 import forms
 
 
+@app.route('/register', methods = ['POST', 'GET'])
+def register() :
+    form = forms.RegisterForm()
+
+    return render_template('register.html', form = form)
+
+
 @app.route('/', methods=['POST', 'GET'])
 def main():
     surveys = Survey.query.all()
@@ -15,9 +22,8 @@ def main():
         question = form.question.data
         variant_1 = form.variant_1.data
         variant_2 = form.variant_2.data
-        variant_3 = form.variant_3.data
         user = User.query.filter_by(id=1).first()
-        survey = Survey(question=question, variant_1=variant_1, variant_2=variant_2, variant_3=variant_3, user=user)
+        survey = Survey(question=question, variant_1=variant_1, variant_2=variant_2, user=user)
         db.session.add(survey)
         db.session.commit()
         return redirect(url_for('main'))
@@ -33,7 +39,6 @@ def detail(id):
         surv.question = form.question.data if form.question.data else surv.question
         surv.variant_1 = form.variant_1.data if form.variant_1.data else surv.variant_1
         surv.variant_2 = form.variant_2.data if form.variant_2.data else surv.variant_2
-        surv.variant_3 = form.variant_3.data if form.variant_3.data else surv.variant_3
 
         db.session.commit()
 

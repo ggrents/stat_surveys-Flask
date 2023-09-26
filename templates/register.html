@@ -1,11 +1,12 @@
-{%extends 'index.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
 
-{%block content%}
 
-<h2>It is a main page</h2>
-
-
-      <h1>Форма для вопроса и вариантов ответов</h1>
 <form method="POST">
     {{ form.hidden_tag() }}
     <div class="form-group">
@@ -32,11 +33,6 @@
     </div>
 </form>
 
-{%for msg in get_flashed_messages() %}
 
-    {{msg}}
-{%endfor%}
-
-
-
-{%endblock%}
+</body>
+</html>

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 
@@ -10,15 +12,14 @@ class Survey(db.Model):
     question = db.Column(db.String(320), unique=False, nullable=False)
     variant_1 = db.Column(db.String(320), unique=False, nullable=False)
     variant_2 = db.Column(db.String(320), unique=False, nullable=False)
-    variant_3 = db.Column(db.String(320), unique=False, nullable=False)
+    time_created = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref=db.backref('surveys', lazy=True))
 
-    def __init__(self, question, variant_1, variant_2, variant_3, user):
+    def __init__(self, question, variant_1, variant_2, user):
         self.question = question
         self.variant_1 = variant_1
         self.variant_2 = variant_2
-        self.variant_3 = variant_3
         self.user = user
 
 
