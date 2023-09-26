@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DETAIL</title>
+</head>
+<body>
+
+{{survey.question}}
+{{survey.variant_1}}
+{{survey.variant_2}}
+{{survey.variant_3}}
+
+
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.question.label(class="form-label") }}
+        {{ form.question(class="form-control") }}
+    </div>
+    <br>
+    <div class="form-group">
+        {{ form.variant_1.label(class="form-label") }}
+        {{ form.variant_1(class="form-control") }}
+    </div>
+    <br>
+    <div class="form-group">
+        {{ form.variant_2.label(class="form-label") }}
+        {{ form.variant_2(class="form-control") }}
+    </div>
+    <br>
+      <div class="form-group">
+        {{ form.variant_3.label(class="form-label") }}
+        {{ form.variant_3(class="form-control") }}
+    </div>
+
+    <br>
+
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+
+
+
+</body>
+</html>

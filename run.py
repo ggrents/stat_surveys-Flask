@@ -1,5 +1,5 @@
-from app import main_app
+from routes import *
+from config import app
 
 if __name__ == '__main__':
-    main_app.run()
-
+    app.run(debug=True)
