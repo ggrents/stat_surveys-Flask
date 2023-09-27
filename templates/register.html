@@ -7,32 +7,45 @@
 <body>
 
 
-<form method="POST">
-    {{ form.hidden_tag() }}
-    <div class="form-group">
-        {{ form.question.label(class="form-label") }}
-        {{ form.question(class="form-control") }}
-    </div>
-    <br>
-    <div class="form-group">
-        {{ form.variant_1.label(class="form-label") }}
-        {{ form.variant_1(class="form-control") }}
-    </div>
-    <br>
-    <div class="form-group">
-        {{ form.variant_2.label(class="form-label") }}
-        {{ form.variant_2(class="form-control") }}
-    </div>
-    <br>
+   <form method="POST" action="/register">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}<br>
+            {% for error in form.username.errors %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(size=32) }}<br>
+            {% for error in form.email.errors %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password1.label }}<br>
+            {{ form.password1(size=32) }}<br>
+            {% for error in form.password1.errors %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        </p>
 
+            <p>
+            {{ form.password2.label }}<br>
+            {{ form.password2(size=32,value='') }}<br>
+            {% for error in form.password2.errors %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+        <p>
+            <input type="submit" value="Зарегистрироваться">
+        </p>
+    </form>
 
-    <br>
-
-    <div class="form-group">
-        {{ form.submit(class="btn btn-primary") }}
-    </div>
-</form>
-
+    {%for msg in get_flashed_messages()%}
+    {{msg}}
+    {%endfor%}
 
 </body>
 </html>
