@@ -1,4 +1,5 @@
-from flask_login import login_required, login_user, current_user
+from flask_login import login_required, login_user, current_user, logout_user
+from werkzeug.security import check_password_hash
 
 from models import Survey, User, db
 from config import app, login_manager
@@ -11,6 +12,9 @@ import forms
 def register():
     form = forms.RegisterForm()
     if request.method == "POST":
+
+        is_user = User.query.filter_by(username=form.username.data).first()
+
         if form.validate_on_submit():
             username = form.username.data
             email = form.email.data
@@ -22,41 +26,21 @@ def register():
             flash("success")
             return redirect(url_for('main'))
         else:
-            flash("something wrong!")
+            if form.password1.data != form.password2.data:
+                flash("Passwords are not same!")
+
+            if len(form.password1.data) < 8:
+                flash("Passwords are not same!")
+
+            if is_user:
+                flash("User with such a username already exists")
+
     return render_template('register.html', form=form)
-
-
-# @app.route('/login', methods=['POST', 'GET'])
-# def login():
-#     pass
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
-
-
-@login_required
-@app.route('/profile/')
-def profile() :
-    return f"ETO {current_user.username} PROFILE"
-
-
-
-@app.route('/login/', methods=["POST", "GET"])
-def login():
-    form = forms.LoginForm()
-    if request.method == "POST":
-        if form.validate_on_submit():
-            username = form.username.data
-            user = User.query.filter(username=username).first()
-            print(user.username)
-            if user.check_password(form.password.data):
-                login_user(user)
-                flash("login successfully!")
-                return redirect(url_for('profile'))
-
-    return render_template('login.html', form=form)
+    return User.query.get(user_id)
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -85,12 +69,44 @@ def detail(id):
     if request.method == "POST":
 
         if form.validate_on_submit():
-            surv.question = form.question.data
-            surv.variant_1 = form.variant_1.data
-            surv.variant_2 = form.variant_2.data
+            surv.question = form.question.data if form.question.data != '' else surv.question
+            surv.variant_1 = form.variant_1.data if form.variant_1.data != '' else surv.variant_1
+            surv.variant_2 = form.variant_2.data if form.variant_2.data != '' else surv.variant_2
 
             db.session.commit()
 
             return redirect(url_for('detail', id=id))
 
     return render_template('detail.html', form=form, survey=surv)
+
+
+@login_required
+@app.route('/profile/')
+def profile():
+    return f"ETO {current_user.username} PROFILE"
+
+
+@app.route('/login/', methods=["POST", "GET"])
+def login():
+    form = forms.LoginForm()
+    if request.method == "POST":
+        if form.validate_on_submit():
+            username = form.username.data
+
+            user = User.query.filter_by(username=username).first()
+
+            if user and check_password_hash(user.password_hash, form.password.data):
+                login_user(user)
+                flash("login successfully!")
+                return redirect(url_for('profile'))
+            else:
+                flash("something went wrong!")
+
+    return render_template('login.html', form=form)
+
+
+@login_required
+@app.route('/logout/')
+def logout():
+    logout_user()
+    return redirect(url_for("main"))

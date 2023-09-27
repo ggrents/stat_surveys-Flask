@@ -28,10 +28,17 @@ class RegisterForm(FlaskForm):
     password2 = PasswordField('Repeat password', validators=[DataRequired()])
 
     def validate_on_submit(self, extra_validators=None):
-        isUser = User.query.filter_by(email=self.email.data).first()
-        print(self.password1, self.password2, sep='|||')
-        return self.is_submitted() and self.validate(
-            extra_validators=extra_validators) and self.password1.data == self.password2.data and not isUser
+        is_user = User.query.filter_by(username=self.username.data).first()
+
+        def is_correct_password(password):
+            return all([len(password) > 8,
+                        any(c.isdigit() for c in password),
+                        any(c.isalpha() for c in password)])
+
+        return all([self.is_submitted(), self.validate(
+            extra_validators=extra_validators),
+                    self.password1.data == self.password2.data,
+                    is_correct_password(self.password1.data), not is_user])
 
 
 class LoginForm(FlaskForm):
