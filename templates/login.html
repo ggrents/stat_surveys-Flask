@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Вход в систему</title>
-</head>
-<body>
-    <h1>Вход в систему</h1>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-  <form method="POST" action="">
+{%extends 'main_page.html'%}
+
+{% block main %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+
+   <form method="POST" action="">
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
@@ -23,7 +14,6 @@
                 <span style="color: red;">{{ error }}</span><br>
             {% endfor %}
         </p>
-
         <p>
             {{ form.password.label }}<br>
             {{ form.password(size=32) }}<br>
@@ -31,9 +21,17 @@
                 <span style="color: red;">{{ error }}</span><br>
             {% endfor %}
         </p>
+
+
         <p>
-            <input type="submit" value="Log in">
+            <input type="submit" value="Sign in">
         </p>
     </form>
-</body>
-</html>
+
+    {%for msg in get_flashed_messages()%}
+    {{msg}}
+    {%endfor%}
+        </div>
+    </div>
+</div>
+{% endblock %}

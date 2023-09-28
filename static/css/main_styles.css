@@ -1,0 +1,69 @@
+header {
+    background-color: #3498db;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1; /* Добавим z-index, чтобы хедер был поверх основного контента */
+
+
+}
+
+h1 {
+    color: white;
+    font-size: 36px;
+}
+
+/* Стили для кнопок в хедере */
+.header-buttons {
+    margin-top: 20px;
+}
+
+.header-button {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #e74c3c;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+/* Стили для основной части */
+.main-content {
+margin-top : 200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    margin-bottom : 100px;
+}
+
+.survey-box {
+    width: 300px;
+    height: 150px;
+    background-color: #f2f2f2;
+    margin: 10px;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+/* Стили для футера */
+footer {
+    background-color: #3498db;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    position: fixed; /* Зафиксируем футер */
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.row.justify-content-center {
+     margin-top: 180px;
+}

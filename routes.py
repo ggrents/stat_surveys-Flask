@@ -8,8 +8,6 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 import forms
 
 
-
-
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     form = forms.RegisterForm()
@@ -49,22 +47,7 @@ def load_user(user_id):
 @app.route('/', methods=['POST', 'GET'])
 def main():
     surveys = Survey.query.all()
-    form = forms.Surveyform()
-    if form.validate_on_submit():
-        flash('Survey was created!')
-        question = form.question.data
-        variant_1 = form.variant_1.data
-        variant_2 = form.variant_2.data
-        user = User.query.filter_by(id=1).first()
-        survey = Survey(question=question, variant_1=variant_1, variant_2=variant_2, user=user)
-        db.session.add(survey)
-        db.session.commit()
-
-        return redirect(url_for('main'))
-    custom_logger.info('info msg')
-    custom_logger.warning('warning msg')
-    custom_logger.critical('warning msg')
-    return render_template('main.html', list=surveys, form=form)
+    return render_template('main_page.html', list=surveys)
 
 
 @app.route('/detail/<int:id>', methods=["POST", "GET"])
@@ -89,7 +72,8 @@ def detail(id):
 @login_required
 @app.route('/profile/')
 def profile():
-    return f"ETO {request.cookies.get('username')} PROFILE, You logged in {session[f'count_visit_of_{current_user.username}']} times"
+    surveys = Survey.query.filter_by(user = current_user)
+    return render_template('profile.html', surveys = surveys)
 
 
 @app.route('/login/', methods=["POST", "GET"])
@@ -115,6 +99,27 @@ def login():
                 flash("something went wrong!")
 
     return render_template('login.html', form=form)
+
+
+@login_required
+@app.route('/create_surv/', methods=["GET", "POST"])
+def create_surv():
+    form = forms.Surveyform()
+    if request.method == "POST":
+
+        if form.validate_on_submit():
+            flash('Survey was created!')
+            question = form.question.data
+            variant_1 = form.variant_1.data
+            variant_2 = form.variant_2.data
+            user = User.query.filter_by(id=1).first()
+            survey = Survey(question=question, variant_1=variant_1, variant_2=variant_2, user=user)
+            db.session.add(survey)
+            db.session.commit()
+
+            return redirect(url_for('main'))
+
+    return render_template('create_surv.html', form=form)
 
 
 @login_required

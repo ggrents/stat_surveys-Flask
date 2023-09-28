@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stat Surveys</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename = 'css/main_styles.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+    <header>
+        <a href="{{url_for('main')}}"> <h1>Stat Surveys</h1> </a>
+
+        {%if current_user.is_authenticated%}
+
+        <div class="header-buttons">
+            <a class="header-button" href="{{url_for('profile')}}">Profile</a>
+            <a class="header-button" href="{{url_for('logout')}}">Logout</a>
+            <a class="header-button" href="{{url_for('create_surv')}}">Add Survey</a>
+        </div>
+
+        {%else%}
+
+            <div class="header-buttons">
+            <a class="header-button" href="{{url_for('register')}}">Registration</a>
+            <a class="header-button" href="{{url_for('login')}}">Login</a>
+            <a class="header-button" href="#">About us</a>
+        </div>
+
+        {%endif%}
+    </header>
+
+    {%block main%}
+
+
+
+
+    <div class="main-content">
+         {%for i in list%}
+        <div class="survey-box">
+            <a href="{{url_for('detail', id = i.id)}}">{{i.question}}</a>
+        </div>
+
+
+        {%endfor%}
+
+        <!-- Добавьте еще квадратиков по желанию -->
+    </div>
+
+    {%endblock%}
+
+    <footer>
+        &copy; 2023 Stat Surveys. Все права защищены.
+    </footer>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{%extends 'main_page.html'%}
+
+{% block main %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <img src="{{ url_for('static', filename='images/01.png') }}" alt="Avatar" class="img-fluid">
+        </div>
+        <div class="col-md-8">
+            <h1 class="text-center" style="color : red;">{{ current_user.username }}</h1>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <div class="row justify-content-center"> {# Отступ от хедера и выравнивание по центру #}
+        <h2 style="color : black;">My Surveys</h2>
+        {% for surv in surveys %}
+        <div class="col-md-4">
+            <div class="survey-box">
+                <a href="#">Опрос 1</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
