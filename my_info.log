@@ -1,0 +1,20 @@
+[2023-09-28 14:55:50,726] WARNING: Это предупреждение
+[2023-09-28 14:55:50,726] ERROR: Это сообщение об ошибке
+[2023-09-28 14:55:51,637] WARNING: Это предупреждение
+[2023-09-28 14:55:51,637] ERROR: Это сообщение об ошибке
+[2023-09-28 14:55:53,692] WARNING: info msg
+[2023-09-28 15:04:52,670] INFO: info msg
+[2023-09-28 15:04:52,670] WARNING: warning msg
+[2023-09-28 15:05:03,887] INFO: info msg
+[2023-09-28 15:05:03,888] WARNING: warning msg
+[2023-09-28 15:05:03,888] CRITICAL: warning msg
+[2023-09-28 15:05:41,551] CRITICAL: warning msg
+[2023-09-28 15:07:12,144] INFO: info msg
+[2023-09-28 15:07:12,144] WARNING: warning msg
+[2023-09-28 15:07:12,144] CRITICAL: warning msg
+[2023-09-28 15:07:22,091] INFO: info msg
+[2023-09-28 15:07:22,092] WARNING: warning msg
+[2023-09-28 15:07:22,092] CRITICAL: warning msg
+[2023-09-28 15:22:21,602] INFO: info msg
+[2023-09-28 15:22:21,603] WARNING: warning msg
+[2023-09-28 15:22:21,603] CRITICAL: warning msg

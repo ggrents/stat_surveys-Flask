@@ -2,10 +2,12 @@ from flask_login import login_required, login_user, current_user, logout_user
 from werkzeug.security import check_password_hash
 
 from models import Survey, User, db
-from config import app, login_manager
-from flask import Flask, render_template, request, redirect, url_for, flash
+from config import app, login_manager, custom_logger
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 
 import forms
+
+
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -24,6 +26,7 @@ def register():
             db.session.add(user)
             db.session.commit()
             flash("success")
+
             return redirect(url_for('main'))
         else:
             if form.password1.data != form.password2.data:
@@ -56,8 +59,11 @@ def main():
         survey = Survey(question=question, variant_1=variant_1, variant_2=variant_2, user=user)
         db.session.add(survey)
         db.session.commit()
-        return redirect(url_for('main'))
 
+        return redirect(url_for('main'))
+    custom_logger.info('info msg')
+    custom_logger.warning('warning msg')
+    custom_logger.critical('warning msg')
     return render_template('main.html', list=surveys, form=form)
 
 
@@ -83,7 +89,7 @@ def detail(id):
 @login_required
 @app.route('/profile/')
 def profile():
-    return f"ETO {current_user.username} PROFILE"
+    return f"ETO {request.cookies.get('username')} PROFILE, You logged in {session[f'count_visit_of_{current_user.username}']} times"
 
 
 @app.route('/login/', methods=["POST", "GET"])
@@ -98,7 +104,13 @@ def login():
             if user and check_password_hash(user.password_hash, form.password.data):
                 login_user(user)
                 flash("login successfully!")
-                return redirect(url_for('profile'))
+                response = redirect(url_for('profile'))
+                response.set_cookie('username', username)
+                if f'count_visit_of_{username}' not in session:
+                    session[f'count_visit_of_{username}'] = 1
+                else:
+                    session[f'count_visit_of_{username}'] = session[f'count_visit_of_{username}'] + 1
+                return response
             else:
                 flash("something went wrong!")
 
@@ -108,5 +120,7 @@ def login():
 @login_required
 @app.route('/logout/')
 def logout():
+    response = redirect(url_for("main"))
+    response.delete_cookie('username')
     logout_user()
-    return redirect(url_for("main"))
+    return response
