@@ -3,55 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stat Surveys</title>
-    <link rel="stylesheet" href=" {{ url_for('static', filename = 'css/main_styles.css')}}">
+    <title>Survey Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
 </head>
 <body>
-    <header>
-        <a href="{{url_for('main')}}"> <h1>Stat Surveys</h1> </a>
+{%if current_user.is_authenticated %}
 
-        {%if current_user.is_authenticated%}
-
-        <div class="header-buttons">
-            <a class="header-button" href="{{url_for('profile')}}">Profile</a>
-            <a class="header-button" href="{{url_for('logout')}}">Logout</a>
-            <a class="header-button" href="{{url_for('create_surv')}}">Add Survey</a>
-        </div>
-
-        {%else%}
-
-            <div class="header-buttons">
-            <a class="header-button" href="{{url_for('register')}}">Registration</a>
-            <a class="header-button" href="{{url_for('login')}}">Login</a>
-            <a class="header-button" href="#">About us</a>
-        </div>
-
-        {%endif%}
-    </header>
-
-    {%block main%}
-
-
-
-
-    <div class="main-content">
-         {%for i in list%}
-        <div class="survey-box">
-            <a href="{{url_for('detail', id = i.id)}}">{{i.question}}</a>
-        </div>
-
-
-        {%endfor%}
-
-        <!-- Добавьте еще квадратиков по желанию -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-primary text-light">
+    <a class="navbar-brand text-light" href="{{url_for('main')}}">Stat Surveys</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{{url_for('profile')}}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{{url_for('logout')}}">Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{{url_for('create_surv')}}">Add Survey</a>
+            </li>
+        </ul>
     </div>
 
-    {%endblock%}
+</nav>
 
-    <footer>
-        &copy; 2023 Stat Surveys. Все права защищены.
-    </footer>
+    {%else%}
+<nav class="navbar navbar-expand-lg navbar-light bg-primary text-light">
+    <a class="navbar-brand text-light" href="{{url_for('main')}}">Stat Surveys</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item text-light">
+                <a class="nav-link text-light" href="{{url_for('register')}}">Registration</a>
+            </li>
+            <li class="nav-item text-light">
+                <a class="nav-link text-light" href="{{url_for('login')}}">Login</a>
+            </li>
+            <li class="nav-item text-light">
+                <a class="nav-link text-light" href="#">About</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+    {%endif %}
+
+
+
+{%block main%}
+
+<div class="container mt-5">
+    <div class="row">
+        {% for survey in surveys %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <img src="{{url_for('static', filename = survey.image_path)}}" class="card-img-top" alt="Survey Image">
+                    <div class="card-body">
+                        <a href="{{url_for('detail', id = survey.id)}}"> <h5 class="card-title">{{ survey.question }}</h5> </a>
+                        <form>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="option1" name="options">
+                                <label class="form-check-label" for="option1">{{ survey.variant_1 }}</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="option2" name="options">
+                                <label class="form-check-label" for="option2">{{ survey.variant_2 }}</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                            <p>Author - {{survey.user}}</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{%endblock%}
+
+
+<footer class="bg-primary text-center text-light text-lg-start mt-5 py-3" style="padding-bottom : 10px ;background-color: #0000FF;">
+    &copy; 2023 Stat Surveys. All rights reserved.
+</footer>
+
 </body>
 </html>

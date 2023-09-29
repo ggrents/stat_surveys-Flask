@@ -1,26 +1,40 @@
 {%extends 'main_page.html'%}
 
 {% block main %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <img src="{{ url_for('static', filename='images/01.png') }}" alt="Avatar" class="img-fluid">
-        </div>
-        <div class="col-md-8">
-            <h1 class="text-center" style="color : red;">{{ current_user.username }}</h1>
-        </div>
+
+<div style="display: flex; align-items: center; margin-top : 50px; justify-content: center;">
+    <img style="width: 200px; height: 200px; object-fit: cover; object-position: top left; margin-right: 20px; border-radius: 50%;"
+         src="{{url_for('static', filename=current_user.image_path)}}" alt="Image">
+
+    <div>
+        <h1 style="margin: 0;">USERNAME - {{current_user.username}}</h1>
+        <h2 style="margin: 0;">EMAIL - {{current_user.email}}</h2>
     </div>
 </div>
-<div class="container mt-4">
-    <div class="row justify-content-center"> {# Отступ от хедера и выравнивание по центру #}
-        <h2 style="color : black;">My Surveys</h2>
-        {% for surv in surveys %}
-        <div class="col-md-4">
-            <div class="survey-box">
-                <a href="#">Опрос 1</a>
+<div class="container mt-5">
+    <div class="row">
+        {% for survey in surveys %}
+            <div class="col-md-12 mb-4">
+                <div class="card">
+                    <img src="{{url_for('static', filename = survey.image_path)}}" class="card-img-top" alt="Survey Image">
+                    <div class="card-body">
+                        <a href="{{url_for('detail', id = survey.id)}}"> <h5 class="card-title">{{ survey.question }}</h5> </a>
+                        <form>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="option1" name="options">
+                                <label class="form-check-label" for="option1">{{ survey.variant_1 }}</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="option2" name="options">
+                                <label class="form-check-label" for="option2">{{ survey.variant_2 }}</label>
+                            </div>
+
+                    </div>
+                </div>
             </div>
-        </div>
         {% endfor %}
     </div>
 </div>
+
+
 {% endblock %}

@@ -1,11 +1,24 @@
+import os
+
 from flask_login import login_required, login_user, current_user, logout_user
 from werkzeug.security import check_password_hash
+from werkzeug.utils import secure_filename
 
 from models import Survey, User, db
 from config import app, login_manager, custom_logger
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
 
 import forms
+
+
+@app.errorhandler(404)
+def page_404(error):
+    return render_template('404page.html'), 404
+
+
+@app.errorhandler(403)
+def page_403(error):
+    return render_template('403page.html'),403
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -20,11 +33,20 @@ def register():
             email = form.email.data
             password = form.password1.data
 
-            user = User(username=username, email=email, password=password)
+            user = User(username=username, email=email, password=password, image_path='uploads/anonuser_image.jpg')
+
+            print(form.image.data)
+            if form.image.data:
+                file = form.image.data
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+                user.image_path = 'uploads/' + filename
+
             db.session.add(user)
             db.session.commit()
-            flash("success")
 
+            custom_logger.info(f"user {username} has registered")
             return redirect(url_for('main'))
         else:
             if form.password1.data != form.password2.data:
@@ -35,6 +57,9 @@ def register():
 
             if is_user:
                 flash("User with such a username already exists")
+
+            else:
+                flash("kakayo-to hueta!")
 
     return render_template('register.html', form=form)
 
@@ -47,12 +72,17 @@ def load_user(user_id):
 @app.route('/', methods=['POST', 'GET'])
 def main():
     surveys = Survey.query.all()
-    return render_template('main_page.html', list=surveys)
+    return render_template('main_page.html', surveys=surveys)
 
 
 @app.route('/detail/<int:id>', methods=["POST", "GET"])
 def detail(id):
     surv = Survey.query.get_or_404(id)
+
+    if surv.user.id != current_user.id:
+
+        return redirect(url_for("main"))
+
     form = forms.SurveyUpdateform()
 
     if request.method == "POST":
@@ -72,8 +102,8 @@ def detail(id):
 @login_required
 @app.route('/profile/')
 def profile():
-    surveys = Survey.query.filter_by(user = current_user)
-    return render_template('profile.html', surveys = surveys)
+    surveys = Survey.query.filter_by(user=current_user)
+    return render_template('profile.html', surveys=surveys)
 
 
 @app.route('/login/', methods=["POST", "GET"])
@@ -87,7 +117,8 @@ def login():
 
             if user and check_password_hash(user.password_hash, form.password.data):
                 login_user(user)
-                flash("login successfully!")
+
+                custom_logger.info(f"user {username} logged in")
                 response = redirect(url_for('profile'))
                 response.set_cookie('username', username)
                 if f'count_visit_of_{username}' not in session:
@@ -108,17 +139,28 @@ def create_surv():
     if request.method == "POST":
 
         if form.validate_on_submit():
-            flash('Survey was created!')
+
             question = form.question.data
             variant_1 = form.variant_1.data
             variant_2 = form.variant_2.data
-            user = User.query.filter_by(id=1).first()
+            user = User.query.filter_by(id=current_user.id).first()
             survey = Survey(question=question, variant_1=variant_1, variant_2=variant_2, user=user)
+
+            if form.image.data:
+                os.sep = '/'
+                file = form.image.data
+                filename = secure_filename(file.filename)
+
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+                survey.image_path = 'uploads/' + filename
+
             db.session.add(survey)
             db.session.commit()
 
             return redirect(url_for('main'))
-
+        else:
+            flash('something went wrong(')
     return render_template('create_surv.html', form=form)
 
 
@@ -127,5 +169,8 @@ def create_surv():
 def logout():
     response = redirect(url_for("main"))
     response.delete_cookie('username')
+
+    custom_logger.info(f"user {current_user.username} logged out")
     logout_user()
+
     return response

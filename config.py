@@ -30,6 +30,9 @@ app.config['SECRET_KEY'] = "clsvDSFlvmdlks492dfksnK"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:2996@localhost/flask_app'
 
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+
+
 app.config['SESSION_PERMANENT'] = True
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 

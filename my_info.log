@@ -153,3 +153,42 @@
 [2023-09-28 18:04:06,249] INFO: info msg
 [2023-09-28 18:04:06,249] WARNING: warning msg
 [2023-09-28 18:04:06,250] ERROR: warning msg
+[2023-09-29 11:46:54,966] INFO: user ATF logged in
+[2023-09-29 11:48:06,320] INFO: user ATF logged out
+[2023-09-29 11:49:09,343] INFO: user MAMAMA has registered
+[2023-09-29 11:49:53,846] INFO: user MAMAMA logged in
+[2023-09-29 13:35:49,186] INFO: user MAMAMA logged out
+[2023-09-29 13:35:54,126] INFO: user ATF logged in
+[2023-09-29 13:50:50,705] INFO: user ATF logged out
+[2023-09-29 14:14:09,111] INFO: user ATF logged in
+[2023-09-29 15:10:33,271] INFO: user ATF logged out
+[2023-09-29 15:25:20,258] INFO: user ATF logged in
+[2023-09-29 15:28:15,449] INFO: user ATF logged in
+[2023-09-29 15:32:49,433] INFO: user ATF logged in
+[2023-09-29 15:34:05,928] INFO: user ATF logged in
+[2023-09-29 15:34:33,615] INFO: user ATF logged out
+[2023-09-29 15:35:01,689] INFO: user ATF logged in
+[2023-09-29 15:35:12,334] INFO: user ATF logged out
+[2023-09-29 15:48:33,795] INFO: user ATF logged in
+[2023-09-29 15:57:11,503] INFO: user ATF logged out
+[2023-09-29 16:00:30,946] INFO: user ATF logged in
+[2023-09-29 16:01:24,356] INFO: user ATF logged in
+[2023-09-29 16:03:50,728] INFO: user ATF logged out
+[2023-09-29 16:12:31,543] INFO: user ATF logged in
+[2023-09-29 16:12:47,408] INFO: user ATF logged out
+[2023-09-29 16:15:55,579] INFO: user ATF logged in
+[2023-09-29 16:33:06,811] INFO: user ATF logged out
+[2023-09-29 16:58:09,348] INFO: user ATF logged in
+[2023-09-29 16:58:29,612] INFO: user ATF logged out
+[2023-09-29 16:59:51,444] INFO: user test_user has registered
+[2023-09-29 17:00:09,345] INFO: user test_user logged in
+[2023-09-29 17:01:43,704] INFO: user test_user logged out
+[2023-09-29 17:05:56,753] INFO: user test_user logged in
+[2023-09-29 17:32:43,056] INFO: user test_user logged out
+[2023-09-29 17:33:03,294] INFO: user ATF logged in
+[2023-09-29 17:37:05,849] INFO: user ATF logged out
+[2023-09-29 17:41:07,804] INFO: user ddd has registered
+[2023-09-29 17:41:14,904] INFO: user ddd logged in
+[2023-09-29 17:41:27,795] INFO: user ddd logged out
+[2023-09-29 17:41:42,677] INFO: user ATFggggggg has registered
+[2023-09-29 17:42:08,569] INFO: user ATFggggggg logged in
