@@ -9,8 +9,12 @@
     <div>
         <h1 style="margin: 0;">USERNAME - {{current_user.username}}</h1>
         <h2 style="margin: 0;">EMAIL - {{current_user.email}}</h2>
+        <a href="{{url_for('profile_edit')}}"><h3 style="margin: 0;">Edit profile</h3> </a>
+
     </div>
 </div>
+
+<h3 style="text-align : center; color : red; font-size : 60px;">MY POLLS</h3>
 <div class="container mt-5">
     <div class="row">
         {% for survey in surveys %}

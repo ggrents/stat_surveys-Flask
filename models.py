@@ -20,7 +20,7 @@ class Survey(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref=db.backref('surveys', lazy=True))
 
-    def __init__(self, question, variant_1, variant_2, user , image_path = None ):
+    def __init__(self, question, variant_1, variant_2, user, image_path=None):
         self.question = question
         self.variant_1 = variant_1
         self.variant_2 = variant_2
@@ -35,7 +35,7 @@ class User(UserMixin, db.Model):
     image_path = db.Column(db.String(600), nullable=True)
     password_hash = db.Column(db.String(128), nullable=False)
 
-    def __init__(self, username, email, password, image_path = None):
+    def __init__(self, username, email, password, image_path=None):
         self.username = username
         self.email = email
         self.image_path = image_path
@@ -48,5 +48,5 @@ class User(UserMixin, db.Model):
         return f'{self.username}'
 
 
-class Votes(db.Model) :
-    pass
+# class Votes(db.Model):
+#     survey_id = db.Column(db.Integer, db.ForeignKey(Survey))

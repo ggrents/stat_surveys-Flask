@@ -16,10 +16,17 @@ class Surveyform(FlaskForm):
 
 
 class SurveyUpdateform(FlaskForm):
-    question = StringField('Question', default='Question')
-    variant_1 = StringField('1 Option', default='Option 1')
-    variant_2 = StringField('2 Option', default='Option 2')
-    submit = SubmitField('Update survey', default='')
+    question = StringField('Question')
+    variant_1 = StringField('1 Option')
+    variant_2 = StringField('2 Option')
+    submit = SubmitField('Update survey')
+
+
+class UserUpdateForm(FlaskForm):
+    username = StringField('Username')
+    email = EmailField('Email')
+    image = FileField('Profile Picture')
+    submit = SubmitField('Edit')
 
 
 class RegisterForm(FlaskForm):

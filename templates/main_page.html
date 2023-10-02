@@ -3,10 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Survey Page</title>
+    <title>Stat Surveys</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+  .pagination {
+    margin-left : 700px;
+    text-align: center; /* Центрирует содержимое блока */
+    margin-top: 20px; /* Добавляет верхний отступ для визуального разделения от других элементов */
+  }
+
+  .pagination a {
+    margin: 0 10px; /* Добавляет отступы между ссылками (можете настроить по своему усмотрению) */
+  }
+</style>
 </head>
 <body>
+
+
+
+
 {%if current_user.is_authenticated %}
 
       <nav class="navbar navbar-expand-lg navbar-light bg-primary text-light">
@@ -60,6 +75,14 @@
 
 {%block main%}
 
+{%for msg in get_flashed_messages()%}
+
+{{msg}}
+
+{%endfor%}
+
+
+
 <div class="container mt-5">
     <div class="row">
         {% for survey in surveys %}
@@ -67,7 +90,11 @@
                 <div class="card">
                     <img src="{{url_for('static', filename = survey.image_path)}}" class="card-img-top" alt="Survey Image">
                     <div class="card-body">
+                        {%if current_user.is_authenticated %}
                         <a href="{{url_for('detail', id = survey.id)}}"> <h5 class="card-title">{{ survey.question }}</h5> </a>
+                        {%else%}
+                        <h5 class="card-title">{{ survey.question }}</h5>
+                        {%endif%}
                         <form>
                             <div class="form-check">
                                 <input type="radio" class="form-check-input" id="option1" name="options">
@@ -85,6 +112,19 @@
             </div>
         {% endfor %}
     </div>
+</div>
+
+<div class="pagination">
+
+    {% if surveys.has_prev %}
+    <a href="?page={{ surveys.prev_num }}">Previous   </a>
+        {% endif %}
+  <span>Page {{ surveys.page }}</span>
+
+
+  {% if surveys.has_next %}
+    <a href="?page={{ surveys.next_num }}">Next</a>
+  {% endif %}
 </div>
 
 {%endblock%}

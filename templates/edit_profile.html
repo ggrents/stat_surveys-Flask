@@ -1,0 +1,37 @@
+{% extends 'main_page.html' %}
+
+{% block main %}
+<h2 style="text-align : center;"> EDIT PROFILE </h2>
+
+<div class="container" style="margin-top : 20px; margin-bottom : 430px;">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <img style="margin-bottom : 20px;" src="{{url_for('static', filename=current_user.image_path)}}" class="img-fluid" alt="Question Image">
+                </div>
+            </div>
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.username(class="form-control", value = current_user.username) }}
+                </div>
+                <div class="form-group">
+                    {{ form.email(class="form-control", value = current_user.email) }}
+                </div>
+                <div class="form-group">
+            <label for="image">Upload your profile picture</label>
+                    <input type="file" id="image" name="image" accept="image/*" class="form-control-file" style="width: 300px;">
+                        </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary btn-sm") }}
+                </div>
+            </form>
+
+
+
+        </div>
+    </div>
+</div>
+
+{%endblock%}
