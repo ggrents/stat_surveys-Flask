@@ -5,7 +5,7 @@ from flask_login import login_required, login_user, current_user, logout_user
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 
-from models import Survey, User, db
+from models import Survey, User, db, Votes
 from config import app, login_manager, custom_logger, cache
 from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
 
@@ -84,6 +84,15 @@ def load_user(user_id):
 @cache.cached(timeout=60)
 @app.route('/', methods=['POST', 'GET'])
 def main():
+
+    if request.method == "POST" :
+        pass
+
+        votes = Votes.query.filter_by(id)
+        #some logic
+        votes.nums_of_1
+
+
     page_num = request.args.get('page', 1, type=int)
     surveys = Survey.query.paginate(per_page=6, page=page_num, error_out=True)
     return render_template('main_page.html', surveys=surveys)

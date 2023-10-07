@@ -12,8 +12,7 @@ class Survey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.String(320), unique=False, nullable=False)
     variant_1 = db.Column(db.String(320), unique=False, nullable=False)
-    variant_2 = db.Column(db.String(320), unique=False, nullable=False)
-    time_created = db.Column(db.DateTime, default=datetime.utcnow)
+п    time_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     image_path = db.Column(db.String(600), nullable=True)
 
@@ -48,5 +47,9 @@ class User(UserMixin, db.Model):
         return f'{self.username}'
 
 
-# class Votes(db.Model):
-#     survey_id = db.Column(db.Integer, db.ForeignKey(Survey))
+class Votes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    survey_id = db.Column(db.Integer, db.ForeignKey('survey.id'))
+    survey = db.relationship('Survey', backref=db.backref('votes', lazy=True))
+    nums_of_1 = db.Column(db.Integer)
+    nums_of_2 = db.Column(db.Integer)
